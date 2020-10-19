@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../References/d2l-zh"
+		}
+	],
+	"settings": {
+		"terminal.integrated.automationShell.windows": "C:\\Windows\\System32\\cmd.exe",
+		"terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+		// "terminal.integrated.shellArgs.windows": [
+		// 	"/K",
+		// 	"activate",
+		// 	"pytorch"
+		// ],
+		"terminal.integrated.env.windows": {
+			"task_lang": "python",
+			"python_env": "pytorch"
+		}
+	}
+}
