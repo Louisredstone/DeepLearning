@@ -1,22 +1,30 @@
-conda info -e>jupyter_start.tmp.txt | echo 0 1>nul
-#it's very tricky. You'll need "| echo 0 1>nul", otherwise this batch file
-#will not go on
-#maybe because `conda info -e` uses exceptions to quit
+#!/bin/bash
+conda info -e > jupyter_start.tmp.txt
 
-set flag=false
+flag=false
 #if there is env "pytorch"
 
-for /F %%i in (jupyter_start.tmp.txt) do (
-    if "%%i"=="pytorch" (
-        set flag=true
-    )
-)
+while read line
+do
+    for word in $line
+    do
+        if [ "$word" == "pytorch" ]; then
+            flag=true
+        fi
+        break
+    done
+done < jupyter_start.tmp.txt
 
-del jupyter_start.tmp.txt 2>nul
+rm jupyter_start.tmp.txt 2>nul
 
-if "%flag%"=="true" (
-    conda activate pytorch
+if [ "$flag" == "true" ]; then
+    # conda init bash
+    source activate pytorch
+    python ./test_torch.py
+    # python -m ipykernel install --user --name pytorch --display-name "pytorch"
     jupyter notebook
-) else (
+    conda deactivate
+    # jupyter kernelspec remove pytorch
+else
     echo ERROR: env "pytorch" does not exist.
-)
+fi
